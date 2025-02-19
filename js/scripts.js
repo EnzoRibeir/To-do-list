@@ -66,6 +66,8 @@ const addTaskSecondDiv = document.querySelector("#add-task-second");
 
 
 btnAddTask.addEventListener("click", (event) => {
+    addTaskSecondDiv.classList.remove("overlay");
+    addTaskSecondDiv.classList.add("hide");
     addTaskDiv.classList.remove("hide");
 });
 
