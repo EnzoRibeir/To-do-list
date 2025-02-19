@@ -4,7 +4,8 @@
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     overflow-x: hidden;
 }
 
@@ -24,8 +25,14 @@ button {
 
 @media screen and (max-width: 480px) {
 
+    html,
     body {
+        height: 100%;
 
+    }
+
+    #container {
+        height: 100%;
     }
 
     #nav {
@@ -36,6 +43,7 @@ button {
         display: flex;
         width: 100%;
         margin-bottom: 2rem;
+        justify-content: space-between;
 
     }
 
@@ -43,7 +51,7 @@ button {
         background-color: #ff66c4;
         color: white;
         border-radius: 1rem;
-        padding: 0.2rem 2rem;
+        padding: 0.2rem 1rem;
         font-size: .9rem;
     }
 
@@ -75,8 +83,8 @@ button {
         position: relative;
         margin-right: 8px;
     }
-    
-    .check-itens input:checked + .checkmark::after {
+
+    .check-itens input:checked+.checkmark::after {
         content: "✔";
         font-size: 16px;
         color: white;
@@ -85,8 +93,8 @@ button {
         left: 50%;
         transform: translate(-50%, -50%);
     }
-    
-    .check-itens input:checked + .checkmark {
+
+    .check-itens input:checked+.checkmark {
         background-color: #333;
         border-color: #333;
     }
@@ -96,7 +104,7 @@ button {
         height: 70px;
         position: fixed;
         bottom: 5rem;
-        right: 2rem;    
+        right: 2rem;
     }
 
     #btn-add-task img {
@@ -123,44 +131,32 @@ button {
         width: 30px;
     }
 
-    .hide {
-        display: none;
-    }
-    
-    .overlay {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        left: 0;
+    #add-task {
+        align-items: center;
+        text-align: center;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        align-items: center;
-        z-index: 1000;
-
-    }
-    
-    #add-task {
-        display: flex;
-        flex-direction: column;
-        background-color: white;
-        align-items: center;
-        width: 100%;
-        height: 100px;
-        position: fixed;
-        bottom: 0;
-        border-radius: 1rem;
     }
 
     #add-task-form {
         display: flex;
         flex-direction: column;
-        align-items: center;
         width: 100%;
+        height: 100%;
     }
 
-    #add-task-form input {
+    #add-task-first {
+        width: 100%;
+        height: 100%;
+        height: 100px;
+        position: fixed;
+        bottom: 0;
+        border-radius: 1rem;
+        background-color: white;
+    }
+
+    #add-task-first input {
+        background-color: rgba(255, 255, 255, 0);
         height: 40px;
         border-radius: 1rem;
         border: 1px solid #333;
@@ -169,7 +165,7 @@ button {
         width: 90%;
     }
 
-    #add-task-buttons{
+    #add-task-buttons {
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -181,7 +177,7 @@ button {
         gap: 1rem
     }
 
-    #add-task-buttons-right .form-button-categoria{
+    #add-task-buttons-right .form-button-categoria {
         width: 90px;
         font-size: 0.7rem;
         border-radius: 1rem;
@@ -190,10 +186,10 @@ button {
         color: white;
     }
 
-    #add-task-buttons button {
+    #add-task button {
         width: 30px;
         height: 30px;
-        
+
     }
 
     .form-button-categoria {
@@ -205,6 +201,159 @@ button {
         height: 100%;
     }
 
+    /* escolhendo data da task */
 
-    
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    #add-task-data {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 90%;
+        background-color: white;
+        border-radius: 1rem;
+        margin: 2rem auto;
+
+
+    }
+
+
+    #add-task-data button img {
+        width: 100%;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    /* css do calendário  */
+    #calendar {
+        display: flex;
+        width: 80%;
+        height: 50%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .wrapper {
+        width: 100%;
+        height:100% ;
+        background: #fff;
+        border-radius: 1rem;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .wrapper header {
+        display: flex;
+        align-items: center;
+    }
+
+
+    header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    header .icons {
+    }
+
+    header .icons span {
+        height: 10px;
+        width: 10px;
+        cursor: pointer;
+        color: #878787;
+        text-align: center;
+        line-height: 10px;
+        font-size: 1rem;
+        user-select: none;
+        border-radius: 50%;
+    }
+
+    .icons span:last-child {
+        margin-right: -10px;
+    }
+
+    header .icons span:hover {
+        background: #f2f2f2;
+    }
+
+    header .current-date {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .calendar {
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+    }
+
+    .calendar ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        text-align: center;
+    }
+
+    .calendar .days {
+        margin-top: 10px;
+    }
+
+    .calendar li {
+        color: #333;
+        width: calc(100% / 7);
+        font-size: 0.9rem;
+    }
+
+    .calendar .weeks li {
+        font-size: 0.7rem;
+        font-weight: 500;
+        cursor: default;
+    }
+
+    .days {
+        height: 180px;
+    }
+    .calendar .days li {
+        z-index: 1;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .days li.inactive {
+        color: #aaa;
+    }
+
+    .days li.active {
+        color: #fff;
+    }
+
+    .days li::before {
+        position: absolute;
+        content: "";
+        left: 50%;
+        top: 20%;
+        height: 25px;
+        width: 25px;
+        z-index: -1;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .days li.active::before {
+        background: #9B59B6;
+    }
+
+    .days li:not(.active):hover::before {
+        background: #f2f2f2;
+    }
+
 }
