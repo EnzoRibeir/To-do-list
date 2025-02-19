@@ -13,10 +13,15 @@ ul {
     list-style-type: none;
 }
 
+button {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+}
+
 @media screen and (max-width: 480px) {
 
     body {
-        height: 1000vh;
+
     }
 
     #nav {
@@ -40,10 +45,10 @@ ul {
         font-size: .9rem;
     }
 
-    #container {
+    #list-tasks {
         display: flex;
         flex-direction: column;
-        margin: 1rem 2rem;        
+        margin: 1rem 2rem;
     }
 
     .check-itens {
@@ -84,16 +89,15 @@ ul {
         border-color: #333;
     }
 
-    #add-task {
-        width: 80px;
-        height: 80px;
+    #btn-add-task {
+        width: 70px;
+        height: 70px;
         position: fixed;
-        bottom: 6rem;
-        right: 1rem;
-        
+        bottom: 5rem;
+        right: 2rem;    
     }
 
-    #add-task img {
+    #btn-add-task img {
         width: 100%;
         height: 100%;
     }
@@ -109,11 +113,44 @@ ul {
     }
 
     .footer-itens {
-        padding: 0.5rem;
+        padding: 0.3rem;
     }
 
     .footer-itens img {
-        height: 35px;
+        height: 30px;
         width: 30px;
+    }
+
+    .hide {
+        display: none;
+    }
+    
+    #overlay{
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    #add-task {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        align-items: center;
+        width: 100%;
+        height: 300px;
+        position: fixed;
+        bottom: 0;
+        border-radius: 1rem;
     }
 }
