@@ -182,7 +182,7 @@ button {
 
     #add-task-buttons-right .form-button-categoria {
         width: 90px;
-        font-size: 0.7rem;
+        font-size: 0.6rem;
         border-radius: 1rem;
         background-color: #ff66c4;
         padding: 1px 5px;
@@ -214,6 +214,9 @@ button {
         top: 0;
         left: 0;
         z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #add-task-data {
@@ -222,7 +225,7 @@ button {
         width: 80%;
         background-color: white;
         border-radius: 1rem;
-        margin: 2rem auto;
+        margin: 0 auto;
     }
 
     #add-task-data button img {
