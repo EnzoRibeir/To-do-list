@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div id="container" class="hide-dark">
+    <div id="container">
         <div id="nav">
             <ul id="nav-list">
                 <li class="nav-itens">Todos</li>
@@ -47,8 +47,8 @@
                         <span class="checkmark"></span>
                         <p>Fazer tal coisa</p>
                     </label>
-                </div>
-                
+                </div>  
+            </div>
         </div>
 
         <div id="btn-add-task">
@@ -60,11 +60,20 @@
         
         <div id="overlay" class="overlay">
             <div id="add-task">
-                <form>
+                <form id="add-task-form">
                     <input type="text" placeholder="Adicionar tarefa" />
-                    <button type="submit" class="hide"><img src="img/icon_send.png" alt=""></button>
+                    <div id="add-task-buttons">
+                        <div id="add-task-buttons-right">
+                            <button type="submit" class="form-button-categoria">Sem categoria</button>
+                            <button type="submit"><img src="img/icon_calendar.png" alt=""></button>
+                        </div>
+                        <div id="add-task-buttons-left">
+                            <button type="submit"><img src="img/icon_send.png" alt=""></button>
+                        </div>
+                    </div>
+                    
+                    
                 </form>
-                <button id="closeModalButton">Fechar</button>
             </div>
         </div>
 
