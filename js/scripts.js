@@ -124,7 +124,7 @@ btnAddTask.addEventListener("click", (event) => {
     addTaskDiv.classList.remove("hide");
     setTimeout(() => {
         formInput.focus();
-    }, 300);
+    }, 800);
 });
 
 document.addEventListener("click", (event) => {
