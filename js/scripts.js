@@ -86,6 +86,7 @@ const moveToConcluded = (todo) => {
     checkListConcluded.appendChild(todo);
     checkListConcluded.classList.remove("hide");
     checkEmptyLists();
+    updateTodoStatusLocalStorage(todo.querySelector("p").innerText, true);
 }
 
 const moveToOriginalList = (todo) => {
@@ -97,6 +98,7 @@ const moveToOriginalList = (todo) => {
         checkListFuture.appendChild(todo);
     }
     checkEmptyLists();
+    updateTodoStatusLocalStorage(todo.querySelector("p").innerText, false);
 }
 
 //verifica se a class-list-conclued está vazia
@@ -138,7 +140,7 @@ const toggleVisibility = (elementId, icon) => {
 };
 
 //adicionar task
-const saveTodo = (text, date) => {
+const saveTodo = (text, date, done = false, save = true) => {
     const todo = document.createElement("label");
     todo.classList.add("check-itens");
     
@@ -147,9 +149,20 @@ const saveTodo = (text, date) => {
 
     const todoCheckbox = document.createElement("input");
     todoCheckbox.type = "checkbox";
+    todoCheckbox.checked = done;
 
     const todoSpan = document.createElement("span");
     todoSpan.classList.add("checkmark");
+
+    const todoDelete = document.createElement("span");
+    todoDelete.classList.add("material-symbols-outlined");
+    todoDelete.id = "delete-task";
+    todoDelete.innerText = "delete";
+    todoDelete.addEventListener("click", () => {
+        todo.remove();
+        removeTodoLocalStorage(text);
+        checkEmptyLists();
+    });
 
     const todoTitle = document.createElement("p");
     todoTitle.innerText = text;
@@ -157,6 +170,7 @@ const saveTodo = (text, date) => {
     todoTextDiv.appendChild(todoCheckbox);
     todoTextDiv.appendChild(todoSpan);
     todoTextDiv.appendChild(todoTitle);
+    todoTextDiv.appendChild(todoDelete)
 
     const todoDateDiv = document.createElement("div");
     todoDateDiv.classList.add("iten-data");
@@ -169,15 +183,19 @@ const saveTodo = (text, date) => {
     todo.appendChild(todoTextDiv);
     todo.appendChild(todoDateDiv);
 
-    const checkListToday = document.querySelector("#check-list");
-    const checkListFuture = document.querySelector("#check-list-future");
-
-    // Verificar se a tarefa é para hoje ou para o futuro
-    const today = formatDate(new Date());
-    if (date === today) {
-        checkListToday.appendChild(todo);
+    if (done) {
+        checkListConcluded.appendChild(todo);
     } else {
-        checkListFuture.appendChild(todo);
+        const today = formatDate(new Date());
+        if (date === today) {
+            checkListToday.appendChild(todo);
+        } else {
+            checkListFuture.appendChild(todo);
+        }
+    }
+
+    if (save) {
+        saveTodoLocalStorage({ text, date, done });
     }
 
     checkEmptyLists();
@@ -276,3 +294,51 @@ document.addEventListener("click", (event) => {
         }
     }
 });
+
+// Local Storage
+const getTodosLocalStorage = () => {
+    const todos = JSON.parse(localStorage.getItem("todos")) || [];
+    return todos;
+};
+
+const loadTodos = () => {
+    const todos = getTodosLocalStorage();
+    todos.forEach((todo) => {
+        saveTodo(todo.text, todo.date, todo.done, false);
+    });
+};
+
+const saveTodoLocalStorage = (todo) => {
+    const todos = getTodosLocalStorage();
+    todos.push(todo);
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+const removeTodoLocalStorage = (todoText) => {
+    const todos = getTodosLocalStorage();
+    const filteredTodos = todos.filter((todo) => todo.text !== todoText);
+    localStorage.setItem("todos", JSON.stringify(filteredTodos));
+};
+
+const updateTodoStatusLocalStorage = (todoText, done) => {
+    const todos = getTodosLocalStorage();
+    todos.forEach((todo) => {
+        if (todo.text === todoText) {
+            todo.done = done;
+        }
+    });
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+const updateTodoLocalStorage = (todoOldText, todoNewText) => {
+    const todos = getTodosLocalStorage();
+    todos.forEach((todo) => {
+        if (todo.text === todoOldText) {
+            todo.text = todoNewText;
+        }
+    });
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+// Carregar todos ao iniciar
+loadTodos();

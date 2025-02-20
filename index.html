@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="css/styles.css" />
     <!-- Google Font Link for Icons -->
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-    >
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=keyboard_arrow_down" />    <script src="js/scripts.js" defer></script>
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" 
+    />
+    <script src="js/scripts.js" defer></script>
     <title>To do list </title>
 </head>
 
@@ -32,16 +32,19 @@
                     <img src="img/icon_fold-unfold.png" alt="recolher/expandir" />
                 </a> -->
                 <div id="check-list">
-                    <!-- <label class="check-itens">
+                    <label class="check-itens">
                         <div class="iten-text">
                             <input type="checkbox">
                             <span class="checkmark"></span>
                             <p>Fazer tal coisa</p>
+                            <span id="delete-task" class="material-symbols-outlined">
+                                delete
+                            </span>
                         </div>
                         <div class="iten-data">
                             <p>10-02</p>
                         </div>
-                    </label> -->
+                    </label>
                 </div>
             </div>
 
@@ -64,13 +67,13 @@
                 </div>
             </div>
 
-            <div id="task-concluded" >
+            <div id="task-concluded">
                 <h1>Concluidas</h1>
                 <span id="unfold-concluded" class="material-symbols-outlined">
                     keyboard_arrow_down
                 </span>
                 <div id="check-list-concluded">
-                    
+
                 </div>
             </div>
         </div>
