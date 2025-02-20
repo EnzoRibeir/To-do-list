@@ -28,27 +28,14 @@
                 </a> -->
                 <div id="check-list">
                     <label class="check-itens">
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                        <p>Fazer tal coisa</p>
-                    </label>
-
-                    <label class="check-itens">
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                        <p>Fazer tal coisa</p>
-                    </label>
-
-                    <label class="check-itens">
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                        <p>Fazer tal coisa</p>
-                    </label>
-
-                    <label class="check-itens">
-                        <input type="checkbox">
-                        <span class="checkmark"></span>
-                        <p>Fazer tal coisa</p>
+                        <div class="iten-text">
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                            <p>Fazer tal coisa</p>
+                        </div>
+                        <div class="iten-data">
+                            <p>10-02</p>
+                        </div>    
                     </label>
                 </div>
             </div>
@@ -64,14 +51,15 @@
             <form id="add-task-form">
                 <div class="overlay">
                     <div id="add-task-first">
-                        <input type="text" placeholder="Adicionar tarefa" />
+                        <input type="text" name="form-input" placeholder="Adicionar tarefa" />
+                        <input type="hidden" name="form-date" id="form-date" />
                         <div id="add-task-buttons">
                             <div id="add-task-buttons-right">
                                 <button type="submit" class="form-button-categoria">Sem categoria</button>
                                 <button type="submit" name="btn-calendar"><img src="img/icon_calendar.png" alt=""></button>
                             </div>
                             <div id="add-task-buttons-left">
-                                <button type="submit"><img src="img/icon_send.png" alt=""></button>
+                                <button type="submit" name="btn-send-task"><img src="img/icon_send.png" alt=""></button>
                             </div>
                         </div>
                     </div>
@@ -103,8 +91,8 @@
                             </div>
                         </div>
                         <div id="add-task-data-buttons">
-                            <button type="reset"><img src="img/icon_exit.png" alt=""></button>
-                            <button type="submit"><img src="img/icon_send.png" alt=""></button>
+                            <button type="reset" name="btn-exit-data"><img src="img/icon_exit.png" alt=""></button>
+                            <button type="submit" name="btn-send-data"><img src="img/icon_send.png" alt=""></button>
                         </div>
                     </div>
                 </div>
