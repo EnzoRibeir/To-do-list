@@ -330,15 +330,5 @@ const updateTodoStatusLocalStorage = (todoText, done) => {
     localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-const updateTodoLocalStorage = (todoOldText, todoNewText) => {
-    const todos = getTodosLocalStorage();
-    todos.forEach((todo) => {
-        if (todo.text === todoOldText) {
-            todo.text = todoNewText;
-        }
-    });
-    localStorage.setItem("todos", JSON.stringify(todos));
-};
-
 // Carregar todos ao iniciar
 loadTodos();
