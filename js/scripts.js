@@ -201,6 +201,45 @@ const saveTodo = (text, date, done = false, save = true) => {
     checkEmptyLists();
 }
 
+// Local Storage
+const getTodosLocalStorage = () => {
+    const todos = JSON.parse(localStorage.getItem("todos")) || [];
+    return todos;
+};
+
+const loadTodos = () => {
+    const todos = getTodosLocalStorage();
+    todos.forEach((todo) => {
+        saveTodo(todo.text, todo.date, todo.done, false);
+    });
+};
+
+const saveTodoLocalStorage = (todo) => {
+    const todos = getTodosLocalStorage();
+    todos.push(todo);
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+const removeTodoLocalStorage = (todoText) => {
+    const todos = getTodosLocalStorage();
+    const filteredTodos = todos.filter((todo) => todo.text !== todoText);
+    localStorage.setItem("todos", JSON.stringify(filteredTodos));
+};
+
+const updateTodoStatusLocalStorage = (todoText, done) => {
+    const todos = getTodosLocalStorage();
+    todos.forEach((todo) => {
+        if (todo.text === todoText) {
+            todo.done = done;
+        }
+    });
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+// Carregar todos ao iniciar
+loadTodos();
+
+
 
 //Eventos 
 btnAddTask.addEventListener("click", (event) => {
@@ -294,41 +333,3 @@ document.addEventListener("click", (event) => {
         }
     }
 });
-
-// Local Storage
-const getTodosLocalStorage = () => {
-    const todos = JSON.parse(localStorage.getItem("todos")) || [];
-    return todos;
-};
-
-const loadTodos = () => {
-    const todos = getTodosLocalStorage();
-    todos.forEach((todo) => {
-        saveTodo(todo.text, todo.date, todo.done, false);
-    });
-};
-
-const saveTodoLocalStorage = (todo) => {
-    const todos = getTodosLocalStorage();
-    todos.push(todo);
-    localStorage.setItem("todos", JSON.stringify(todos));
-};
-
-const removeTodoLocalStorage = (todoText) => {
-    const todos = getTodosLocalStorage();
-    const filteredTodos = todos.filter((todo) => todo.text !== todoText);
-    localStorage.setItem("todos", JSON.stringify(filteredTodos));
-};
-
-const updateTodoStatusLocalStorage = (todoText, done) => {
-    const todos = getTodosLocalStorage();
-    todos.forEach((todo) => {
-        if (todo.text === todoText) {
-            todo.done = done;
-        }
-    });
-    localStorage.setItem("todos", JSON.stringify(todos));
-};
-
-// Carregar todos ao iniciar
-loadTodos();
