@@ -71,14 +71,73 @@ const btnSend = document.querySelector('[name="btn-send-task"]');
 const form = document.querySelector("#add-task-form");
 const formInput = document.querySelector('[name="form-input"]');
 const formDateInput = document.querySelector("#form-date");
+const unfoldTodayIcon = document.getElementById("unfold-today");
+const unfoldFutureIcon = document.getElementById("unfold-future");
+const unfoldConcludedIcon = document.getElementById("unfold-concluded");
+const checkListToday = document.querySelector("#check-list");
+const checkListFuture = document.querySelector("#check-list-future");
+const checkListConcluded = document.querySelector("#check-list-concluded");
+let taskConcluded = document.querySelector("#task-concluded");
+let taskFuture = document.querySelector("#task-future");
 
 //Funçoes
+// Função para mover a tarefa para a lista de concluídas
+const moveToConcluded = (todo) => {
+    checkListConcluded.appendChild(todo);
+    checkListConcluded.classList.remove("hide");
+    checkEmptyLists();
+}
+
+const moveToOriginalList = (todo) => {
+    const todoDate = todo.querySelector(".iten-data p").innerText;
+    const today = formatDate(new Date());
+    if (todoDate === today) {
+        checkListToday.appendChild(todo);
+    } else {
+        checkListFuture.appendChild(todo);
+    }
+    checkEmptyLists();
+}
+
+//verifica se a class-list-conclued está vazia
+const checkEmptyLists = () => {
+    if (checkListFuture.querySelectorAll("label").length === 0) {
+        taskFuture.id = "hide";
+    } else {
+        taskFuture.id = "task-future";
+    }
+
+    if (checkListConcluded.querySelectorAll("label").length === 0) {
+        taskConcluded.id = "hide";
+    } else {
+        taskConcluded.id = "task-concluded";
+    }
+}
+
+checkEmptyLists();
+
+//formatar data
 const formatDate = (date) => {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Os meses são baseados em zero
     return `${day}-${month}`;
 }
 
+//fold/unfold
+const toggleVisibility = (elementId, icon) => {
+    const element = document.getElementById(elementId);
+    if (element.style.display === "none") {
+        element.style.display = "block";
+        icon.innerText = "keyboard_arrow_down";
+        icon.classList.remove("folded");
+    } else {
+        element.style.display = "none";
+        icon.innerText = "keyboard_arrow_down";
+        icon.classList.add("folded");
+    }
+};
+
+//adicionar task
 const saveTodo = (text, date) => {
     const todo = document.createElement("label");
     todo.classList.add("check-itens");
@@ -110,10 +169,18 @@ const saveTodo = (text, date) => {
     todo.appendChild(todoTextDiv);
     todo.appendChild(todoDateDiv);
 
-    const checkList = document.querySelector("#check-list");
-    checkList.appendChild(todo);
+    const checkListToday = document.querySelector("#check-list");
+    const checkListFuture = document.querySelector("#check-list-future");
 
-    console.log(todo);
+    // Verificar se a tarefa é para hoje ou para o futuro
+    const today = formatDate(new Date());
+    if (date === today) {
+        checkListToday.appendChild(todo);
+    } else {
+        checkListFuture.appendChild(todo);
+    }
+
+    checkEmptyLists();
 }
 
 
@@ -177,5 +244,35 @@ form.addEventListener("submit", (e) => {
         saveTodo(inputValue, dateValue);
         formInput.value = "";
         formDateInput.value = ""; 
+    }
+});
+
+unfoldTodayIcon.addEventListener("click", () => {
+    toggleVisibility("check-list", unfoldTodayIcon);
+});
+
+unfoldFutureIcon.addEventListener("click", () => {
+    toggleVisibility("check-list-future", unfoldFutureIcon);
+});
+
+unfoldConcludedIcon.addEventListener("click", () => {
+    toggleVisibility("check-list-concluded", unfoldConcludedIcon);
+});
+
+document.addEventListener("click", (event) => {
+    if (event.target.type === "checkbox" && event.target.closest("label")) {
+        const todo = event.target.closest("label");
+        moveToConcluded(todo);
+    }
+});
+
+document.addEventListener("click", (event) => {
+    if (event.target.type === "checkbox" && event.target.closest("label")) {
+        const todo = event.target.closest("label");
+        if (event.target.checked) {
+            moveToConcluded(todo);
+        } else {
+            moveToOriginalList(todo);
+        }
     }
 });
