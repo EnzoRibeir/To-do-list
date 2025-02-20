@@ -122,6 +122,7 @@ btnAddTask.addEventListener("click", (event) => {
     addTaskSecondDiv.classList.remove("overlay");
     addTaskSecondDiv.classList.add("hide");
     addTaskDiv.classList.remove("hide");
+    formInput.focus();
 });
 
 document.addEventListener("click", (event) => {
