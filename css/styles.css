@@ -70,17 +70,17 @@ button {
 
   /* No Task Message */
   #no-task {
-    position: fixed;
-    top: 10rem;
+    display: flex;
+    justify-content: center;
     width: 100%;
-    padding: 0 auto;
+    height: 100%;
     text-align: center;
     font-size: 1.5rem;
+    align-items: center;
   }
 
   #no-task h2 {
     width: 80%;
-    margin: 0 auto;
     color: #d0d0d0;
   }
 
