@@ -77,8 +77,14 @@ const unfoldConcludedIcon = document.getElementById("unfold-concluded");
 const checkListToday = document.querySelector("#check-list");
 const checkListFuture = document.querySelector("#check-list-future");
 const checkListConcluded = document.querySelector("#check-list-concluded");
+const editDiv = document.getElementById("edit")
+const editTaskDiv = document.getElementById("edit-task")
+const editTaskTitle = document.querySelector("#edit-task-title");
+const editTaskDate = document.querySelector("#edit-task-date");
 let taskConcluded = document.querySelector("#task-concluded");
 let taskFuture = document.querySelector("#task-future");
+let taskToday = document.querySelector("#task-today");
+let noTask = document.querySelector("#no-task");
 
 //Funçoes
 // Função para mover a tarefa para a lista de concluídas
@@ -114,6 +120,21 @@ const checkEmptyLists = () => {
     } else {
         taskConcluded.id = "task-concluded";
     }
+
+    if (checkListToday.querySelectorAll("label").length === 0) {
+        taskToday.id = "hide";
+    } else {
+        taskToday.id = "task-today";
+    }
+
+    if (checkListToday.querySelectorAll("label").length === 0 && 
+        checkListConcluded.querySelectorAll("label").length === 0 &&
+        checkListFuture.querySelectorAll("label").length === 0) {
+            noTask.classList.remove("hide")
+    } else {
+        noTask.classList.add("hide")
+    }
+    
 }
 
 checkEmptyLists();
@@ -139,6 +160,29 @@ const toggleVisibility = (elementId, icon) => {
     }
 };
 
+// Função para abrir a div de edição
+const openEditTask = (task) => {
+    const taskTitle = task.querySelector("p").innerText;
+    const taskDate = task.querySelector(".iten-data p").innerText;
+
+    editTaskTitle.innerText = taskTitle;
+    editTaskDate.innerText = taskDate;
+
+    editDiv.classList.remove("hide");
+    editDiv.classList.add("overlay");
+
+};
+
+function toggleCheckbox(checkmark) {
+    const todo = checkmark.closest("label");
+    const isChecked = checkmark.classList.toggle('checked');
+    if (isChecked) {
+        moveToConcluded(todo);
+    } else {
+        moveToOriginalList(todo);
+    }
+}
+
 //adicionar task
 const saveTodo = (text, date, done = false, save = true) => {
     const todo = document.createElement("label");
@@ -147,18 +191,16 @@ const saveTodo = (text, date, done = false, save = true) => {
     const todoTextDiv = document.createElement("div");
     todoTextDiv.classList.add("iten-text");
 
-    const todoCheckbox = document.createElement("input");
-    todoCheckbox.type = "checkbox";
-    todoCheckbox.checked = done;
-
     const todoSpan = document.createElement("span");
     todoSpan.classList.add("checkmark");
+    todoSpan.addEventListener("click", () => toggleCheckbox(todoSpan));
 
     const todoDelete = document.createElement("span");
     todoDelete.classList.add("material-symbols-outlined");
     todoDelete.id = "delete-task";
     todoDelete.innerText = "delete";
     todoDelete.addEventListener("click", () => {
+        
         todo.remove();
         removeTodoLocalStorage(text);
         checkEmptyLists();
@@ -167,7 +209,6 @@ const saveTodo = (text, date, done = false, save = true) => {
     const todoTitle = document.createElement("p");
     todoTitle.innerText = text;
 
-    todoTextDiv.appendChild(todoCheckbox);
     todoTextDiv.appendChild(todoSpan);
     todoTextDiv.appendChild(todoTitle);
     todoTextDiv.appendChild(todoDelete)
@@ -197,7 +238,7 @@ const saveTodo = (text, date, done = false, save = true) => {
     if (save) {
         saveTodoLocalStorage({ text, date, done });
     }
-
+    
     checkEmptyLists();
 }
 
@@ -248,7 +289,7 @@ btnAddTask.addEventListener("click", (event) => {
     addTaskDiv.classList.remove("hide");
     setTimeout(() => {
         formInput.focus();
-    }, 800);
+    }, 400);
 });
 
 document.addEventListener("click", (event) => {
@@ -316,12 +357,6 @@ unfoldConcludedIcon.addEventListener("click", () => {
     toggleVisibility("check-list-concluded", unfoldConcludedIcon);
 });
 
-document.addEventListener("click", (event) => {
-    if (event.target.type === "checkbox" && event.target.closest("label")) {
-        const todo = event.target.closest("label");
-        moveToConcluded(todo);
-    }
-});
 
 document.addEventListener("click", (event) => {
     if (event.target.type === "checkbox" && event.target.closest("label")) {
@@ -333,3 +368,20 @@ document.addEventListener("click", (event) => {
         }
     }
 });
+
+document.querySelectorAll(".check-itens").forEach(task => {
+    task.addEventListener("click", (event) => {
+        if (!event.target.classList.contains("checkmark") && event.target.id !== "delete-task") {
+            openEditTask(task);
+        }
+    });
+});
+
+document.addEventListener("click", (event) => {
+    if (!editTaskDiv.contains(event.target) && !event.target.closest(".check-itens")) {
+        editDiv.classList.remove("overlay");
+        editDiv.classList.add("hide");
+    }
+});
+
+

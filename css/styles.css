@@ -79,6 +79,21 @@ button {
         font-size: .9rem;
     }
 
+    #no-task {
+        position: fixed;
+        top: 10rem;
+        width: 100%;
+        padding: 0 auto;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    #no-task h2 {
+        width: 80%;
+        margin: 0 auto;
+        color: #d0d0d0;
+    }
+
     #list-tasks {
         display: flex;
         flex-direction: column;
@@ -97,10 +112,10 @@ button {
 
     #task-future {
         margin-top: 1rem;
-        margin-bottom: 1rem;
     }
 
     #task-concluded {
+        margin-top: 1rem;
         margin-bottom: 10rem;
     }
 
@@ -164,9 +179,15 @@ button {
         display: inline-block;
         position: relative;
         margin-right: 8px;
+        cursor: pointer;
     }
 
-    .check-itens input:checked+.checkmark::after {
+    .checkmark.checked {
+        background-color: #333;
+        border-color: #333;
+    }
+    
+    .checkmark.checked::after {
         content: "✔";
         font-size: 16px;
         color: white;
@@ -174,11 +195,6 @@ button {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-    }
-
-    .check-itens input:checked+.checkmark {
-        background-color: #333;
-        border-color: #333;
     }
 
     #btn-add-task {
@@ -284,7 +300,6 @@ button {
     }
 
     /* escolhendo data da task */
-
     .overlay {
         background-color: rgba(0, 0, 0, 0.8);
         width: 100%;
@@ -317,6 +332,73 @@ button {
 
     #hide {
         display: none;
+    }
+
+    /* edit-task */
+    #edit-task {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        border-radius: 1rem;
+        padding: 1rem;
+        width: 80%;
+        position: fixed;
+        top: 7rem;
+    }
+
+    #edit-task h4 {
+        font-weight: bold;
+        font-size: 2rem;
+    }
+
+    .line {
+        height: 1px;
+        background-color: #cacaca;
+        width: 100%;
+        margin: 0.2rem auto;
+        margin-bottom: 1rem;
+    }
+
+    .categoria {
+        display: flex;
+        background-color: #ff66c4;
+        color: white;
+        border-radius: 1rem;
+        padding: 2px 10px;
+        width: 9rem;
+        font-size: 0.8rem;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+
+    #edit-data {
+        display: flex;
+        align-items: center
+    }
+
+    #edit-data button {
+        display: flex;
+        position: relative;
+        left: 3rem;
+        align-items: center;
+        background-color: #cacaca;
+        color: white;
+        font-size: 0.7rem;
+        border-radius: 1rem;
+        padding: 0.3rem 0.5rem;
+    }
+    
+    #edit-data img {
+        width: 20px;
+        height: 20px;
+    }
+
+    #edit-data a {
+        width: 20px;
+        height: 20px;
+        margin-right: 0.2rem;
     }
 
     /* css do calendário  */
