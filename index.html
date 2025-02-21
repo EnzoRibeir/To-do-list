@@ -119,7 +119,15 @@
                         <input type="hidden" name="form-date" id="form-date" />
                         <div id="add-task-buttons">
                             <div id="add-task-buttons-right">
-                                <button type="submit" class="form-button-categoria">Sem categoria</button>
+                                <div class="selector-categoria">
+                                    <button type="button" class="dropdown-select form-button-categoria">Sem categoria</button>
+                                    <input type="hidden" name="form-category" id="form-category" />
+                                    <div class="selector-categoria-options">
+                                        <div>Sem categoria</div>
+                                        <div>Trabalho</div>
+                                        <div>Faculdade</div>
+                                      </div>
+                                </div>
                                 <button type="submit" name="btn-calendar"><img src="img/icon_calendar.png"
                                         alt=""></button>
                             </div>

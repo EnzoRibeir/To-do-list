@@ -81,6 +81,11 @@ const editDiv = document.getElementById("edit")
 const editTaskDiv = document.getElementById("edit-task")
 const editTaskTitle = document.querySelector("#edit-task-title");
 const editTaskDate = document.querySelector("#edit-task-date");
+const selectorCategoria = document.querySelector('.selector-categoria');
+const select = document.querySelector('.dropdown-select');
+const selectOptions = document.querySelectorAll('.selector-categoria-options div');
+const formCategoryInput = document.querySelector("#form-category");
+const navItems = document.querySelectorAll("#nav-list .nav-itens");
 let taskConcluded = document.querySelector("#task-concluded");
 let taskFuture = document.querySelector("#task-future");
 let taskToday = document.querySelector("#task-today");
@@ -206,10 +211,28 @@ function toggleCheckbox(checkmark) {
     }
 }
 
+//funçao de filtrar tasks por categoria
+const filterTasksByCategory = (category) => {
+    const allTasks = document.querySelectorAll(".check-itens");
+    allTasks.forEach(task => {
+        const taskCategory = task.dataset.category;
+        if (category === "Todos") {
+            task.style.display = "flex";
+        } else if (taskCategory === category) {
+            task.style.display = "flex";
+        } else {
+            task.style.display = "none";
+        }
+    });
+};
+
+
 //funçao de adicionar task
-const saveTodo = (text, date, done = false, save = true) => {
+const saveTodo = (text, date, category, done = false, save = true) => {
+    console.log("saveTodo called with:", { text, date, category, done, save }); // Adicionando log para depuração
     const todo = document.createElement("label");
     todo.classList.add("check-itens");
+    todo.dataset.category = category;
 
     const todoTextDiv = document.createElement("div");
     todoTextDiv.classList.add("iten-text");
@@ -261,7 +284,7 @@ const saveTodo = (text, date, done = false, save = true) => {
     }
 
     if (save) {
-        saveTodoLocalStorage({ text, date, done });
+        saveTodoLocalStorage({ text, date, category, done});
     }
 
     todo.addEventListener("click", (event) => {
@@ -308,7 +331,7 @@ const getTodosLocalStorage = () => {
 const loadTodos = () => {
     const todos = getTodosLocalStorage();
     todos.forEach((todo) => {
-        saveTodo(todo.text, todo.date, todo.done, false);
+        saveTodo(todo.text, todo.date, todo.category, todo.done, false);
     });
 };
 
@@ -396,20 +419,23 @@ daysTag.addEventListener("click", (event) => {
 
 //evento de clique no botao de enviar task
 form.addEventListener("submit", (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const inputValue = formInput.value;
-    let dateValue = formDateInput.value;
+  const inputValue = formInput.value;
+  let dateValue = formDateInput.value;
+  const categoryValue = formCategoryInput.value || "Sem categoria";
 
-    if (!dateValue) {
-        dateValue = formatDate(new Date());
-    }
+  if (!dateValue) {
+    dateValue = formatDate(new Date());
+  }
 
-    if (inputValue) {
-        saveTodo(inputValue, dateValue);
-        formInput.value = "";
-        formDateInput.value = ""; 
-    }
+  if (inputValue) {
+    saveTodo(inputValue, dateValue, categoryValue);
+    formInput.value = "";
+    formDateInput.value = "";
+    formCategoryInput.value = "";
+    select.innerText = "Sem categoria";
+  }
 });
 
 //evento de clique no icone de recolher tasks de hoje
@@ -456,4 +482,34 @@ document.addEventListener("click", (event) => {
     }
 });
 
+//evento de clique no botao de categoria em adicionar task
+select.addEventListener('click', () => {
+    selectorCategoria.classList.toggle('active');
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (!selectorCategoria.contains(e.target)) {
+      selectorCategoria.classList.remove('active');
+    }
+});
 
+document.addEventListener('click', (e) => {
+    if (!selectorCategoria.contains(e.target)) {
+        selectorCategoria.classList.remove('active');
+    }
+});
+
+selectOptions.forEach(option => {
+  option.addEventListener('click', () => {
+    select.innerText = option.innerText;
+    formCategoryInput.value = option.innerText;
+    selectorCategoria.classList.remove('active');
+  });
+});
+
+navItems.forEach(item => {
+    item.addEventListener("click", () => {
+        const category = item.innerText;
+        filterTasksByCategory(category);
+    });
+});
