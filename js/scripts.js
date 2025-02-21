@@ -93,6 +93,7 @@ const moveToConcluded = (todo) => {
     checkListConcluded.classList.remove("hide");
     checkEmptyLists();
     updateTodoStatusLocalStorage(todo.querySelector("p").innerText, true);
+    todo.querySelector(".checkmark").classList.add("checked");
 }
 
 const moveToOriginalList = (todo) => {
@@ -105,6 +106,7 @@ const moveToOriginalList = (todo) => {
     }
     checkEmptyLists();
     updateTodoStatusLocalStorage(todo.querySelector("p").innerText, false);
+    todo.querySelector(".checkmark").classList.remove("checked");
 }
 
 //verifica se a class-list-conclued está vazia
@@ -162,13 +164,14 @@ const toggleVisibility = (elementId, icon) => {
 
 // Função para abrir a div de edição
 const openEditTask = (task) => {
-    const taskId = task.getAttribute("data-id");
-    const taskTitle = task.querySelector("p").innerText;
-    const taskDate = task.querySelector(".iten-data p").innerText;
     const isDone = task.closest("#check-list-concluded") !== null;
     if (isDone) {
-        return;
+        return; // Não abre a caixa de edição se a tarefa estiver concluída
     }
+    
+    const taskTitle = task.querySelector("p").innerText;
+    const taskDate = task.querySelector(".iten-data p").innerText;
+    
 
     editTaskTitle.value = taskTitle;
     editTaskDate.innerText = taskDate;
@@ -178,22 +181,19 @@ const openEditTask = (task) => {
 
     editTaskTitle.addEventListener("blur", () => {
         const newTitle = editTaskTitle.value;
-        task.querySelector("p").innerText = newTitle;
-        updateTodoTitleLocalStorage(taskId, newTitle);
-        editDiv.classList.remove("overlay");
-        editDiv.classList.add("hide");
-    });
-};
-
-// Função para atualizar o título da tarefa no localStorage
-const updateTodoTitleLocalStorage = (taskId, newTitle) => {
-    const todos = getTodosLocalStorage();
-    todos.forEach((todo) => {
-        if (todo.id === taskId) {
-            todo.text = newTitle;
+        if (newTitle !== taskTitle) {
+            task.querySelector("p").innerText = newTitle;
+            updateTodoTitleLocalStorage(taskTitle, newTitle);
         }
     });
-    localStorage.setItem("todos", JSON.stringify(todos));
+
+    editTaskDate.addEventListener("blur", () => {
+        const newDate = editTaskDate.innerText;
+        if (newDate !== taskDate) {
+            task.querySelector(".iten-data p").innerText = newDate;
+            updateTodoDateLocalStorage(taskTitle, newDate);
+        }
+    });
 };
 
 //funcao que move tarefas para div cloncluded
@@ -212,14 +212,14 @@ const saveTodo = (text, date, done = false, save = true) => {
     const todo = document.createElement("label");
     todo.classList.add("check-itens");
 
-    const todoId = `todo-${Date.now()}`; // Adiciona um ID único
-    todo.setAttribute("data-id", todoId);
-    
     const todoTextDiv = document.createElement("div");
     todoTextDiv.classList.add("iten-text");
 
     const todoSpan = document.createElement("span");
     todoSpan.classList.add("checkmark");
+    if (done) {
+        todoSpan.classList.add("checked");
+    }
     todoSpan.addEventListener("click", () => toggleCheckbox(todoSpan));
 
     const todoDelete = document.createElement("span");
@@ -227,9 +227,8 @@ const saveTodo = (text, date, done = false, save = true) => {
     todoDelete.id = "delete-task";
     todoDelete.innerText = "delete";
     todoDelete.addEventListener("click", () => {
-        
         todo.remove();
-        removeTodoLocalStorage(text);
+        removeTodoLocalStorage(todo.querySelector("p").innerText);
         checkEmptyLists();
     });
 
@@ -275,7 +274,28 @@ const saveTodo = (text, date, done = false, save = true) => {
     checkEmptyLists();
 }
 
+
 // Local Storage
+const updateTodoDateLocalStorage = (taskTitle, newDate) => {
+    const todos = getTodosLocalStorage();
+    todos.forEach((todo) => {
+        if (todo.text === taskTitle) {
+            todo.date = newDate;
+        }
+    });
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+const updateTodoTitleLocalStorage = (taskTitle, newTitle) => {
+    const todos = getTodosLocalStorage();
+    todos.forEach((todo) => {
+        if (todo.text === taskTitle) {
+            todo.text = newTitle;
+        }
+    });
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
 const getTodosLocalStorage = () => {
     const todos = JSON.parse(localStorage.getItem("todos")) || [];
     return todos;
@@ -294,16 +314,16 @@ const saveTodoLocalStorage = (todo) => {
     localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-const removeTodoLocalStorage = (todoId) => {
+const removeTodoLocalStorage = (taskTitle) => {
     const todos = getTodosLocalStorage();
-    const filteredTodos = todos.filter((todo) => todo.id !== todoId);
+    const filteredTodos = todos.filter((todo) => todo.text !== taskTitle);
     localStorage.setItem("todos", JSON.stringify(filteredTodos));
 };
 
-const updateTodoStatusLocalStorage = (todoId, done) => {
+const updateTodoStatusLocalStorage = (taskTitle, done) => {
     const todos = getTodosLocalStorage();
     todos.forEach((todo) => {
-        if (todo.id === todoId) {
+        if (todo.text === taskTitle) {
             todo.done = done;
         }
     });
