@@ -87,7 +87,7 @@ let taskToday = document.querySelector("#task-today");
 let noTask = document.querySelector("#no-task");
 
 //Funçoes
-// Função para mover a tarefa para a lista de concluídas
+// Função para mover a tarefa para a div de concluídas
 const moveToConcluded = (todo) => {
     checkListConcluded.appendChild(todo);
     checkListConcluded.classList.remove("hide");
@@ -96,6 +96,7 @@ const moveToConcluded = (todo) => {
     todo.querySelector(".checkmark").classList.add("checked");
 }
 
+// Função para mover a tarefa para a div de origianl de acordo com a data
 const moveToOriginalList = (todo) => {
     const todoDate = todo.querySelector(".iten-data p").innerText;
     const today = formatDate(new Date());
@@ -109,7 +110,7 @@ const moveToOriginalList = (todo) => {
     todo.querySelector(".checkmark").classList.remove("checked");
 }
 
-//verifica se a class-list-conclued está vazia
+//verifica se as divs de tasks estão vazias, caso estejam sao ocultadas
 const checkEmptyLists = () => {
     if (checkListFuture.querySelectorAll("label").length === 0) {
         taskFuture.id = "hide";
@@ -141,14 +142,14 @@ const checkEmptyLists = () => {
 
 checkEmptyLists();
 
-//formatar data
+//funçao de formatar data
 const formatDate = (date) => {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Os meses são baseados em zero
     return `${day}-${month}`;
 }
 
-//fold/unfold
+//funçao fold/unfold das divs de tasks
 const toggleVisibility = (elementId, icon) => {
     const element = document.getElementById(elementId);
     if (element.style.display === "none") {
@@ -162,16 +163,14 @@ const toggleVisibility = (elementId, icon) => {
     }
 };
 
-// Função para abrir a div de edição
+// Função para abrir a div de edição e editar a tarefa
 const openEditTask = (task) => {
     const isDone = task.closest("#check-list-concluded") !== null;
     if (isDone) {
         return; // Não abre a caixa de edição se a tarefa estiver concluída
     }
-    
     const taskTitle = task.querySelector("p").innerText;
     const taskDate = task.querySelector(".iten-data p").innerText;
-    
 
     editTaskTitle.value = taskTitle;
     editTaskDate.innerText = taskDate;
@@ -207,7 +206,7 @@ function toggleCheckbox(checkmark) {
     }
 }
 
-//adicionar task
+//funçao de adicionar task
 const saveTodo = (text, date, done = false, save = true) => {
     const todo = document.createElement("label");
     todo.classList.add("check-itens");
@@ -275,7 +274,9 @@ const saveTodo = (text, date, done = false, save = true) => {
 }
 
 
-// Local Storage
+// Funções de Local Storage
+
+//funçao de atualizar data da task
 const updateTodoDateLocalStorage = (taskTitle, newDate) => {
     const todos = getTodosLocalStorage();
     todos.forEach((todo) => {
@@ -286,6 +287,7 @@ const updateTodoDateLocalStorage = (taskTitle, newDate) => {
     localStorage.setItem("todos", JSON.stringify(todos));
 };
 
+//funçao de atualizar titulo da task
 const updateTodoTitleLocalStorage = (taskTitle, newTitle) => {
     const todos = getTodosLocalStorage();
     todos.forEach((todo) => {
@@ -296,11 +298,13 @@ const updateTodoTitleLocalStorage = (taskTitle, newTitle) => {
     localStorage.setItem("todos", JSON.stringify(todos));
 };
 
+//funçao de pegar todos os itens do local storage
 const getTodosLocalStorage = () => {
     const todos = JSON.parse(localStorage.getItem("todos")) || [];
     return todos;
 };
 
+//funçao de carregar todos os itens do local storage
 const loadTodos = () => {
     const todos = getTodosLocalStorage();
     todos.forEach((todo) => {
@@ -308,18 +312,21 @@ const loadTodos = () => {
     });
 };
 
+//funçao de salvar task no local storage
 const saveTodoLocalStorage = (todo) => {
     const todos = getTodosLocalStorage();
     todos.push(todo);
     localStorage.setItem("todos", JSON.stringify(todos));
 };
 
+//funçao de remover task do local storage
 const removeTodoLocalStorage = (taskTitle) => {
     const todos = getTodosLocalStorage();
     const filteredTodos = todos.filter((todo) => todo.text !== taskTitle);
     localStorage.setItem("todos", JSON.stringify(filteredTodos));
 };
 
+//funçao de atualizar status da task no local storage
 const updateTodoStatusLocalStorage = (taskTitle, done) => {
     const todos = getTodosLocalStorage();
     todos.forEach((todo) => {
@@ -330,12 +337,12 @@ const updateTodoStatusLocalStorage = (taskTitle, done) => {
     localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-// Carregar todos ao iniciar
 loadTodos();
 
 
+//Eventos
 
-//Eventos 
+//evento de clique no botao de adicionar task
 btnAddTask.addEventListener("click", (event) => {
     addTaskSecondDiv.classList.remove("overlay");
     addTaskSecondDiv.classList.add("hide");
@@ -345,6 +352,7 @@ btnAddTask.addEventListener("click", (event) => {
     }, 400);
 });
 
+//evento de clique fora da div de adicionar task
 document.addEventListener("click", (event) => {
     if (!addTaskFirstDiv.contains(event.target) 
         && !btnAddTask.contains(event.target) 
@@ -354,12 +362,15 @@ document.addEventListener("click", (event) => {
     }
 });
 
+
+//evento de clique no botao de calendario
 btnCalendar.addEventListener("click", (event) => {
     addTaskSecondDiv.classList.remove("hide");
     addTaskSecondDiv.classList.add("overlay");
     event.preventDefault();
 });
 
+//evento de clique no botao de sair da div de seleçao de data
 btnExitData.addEventListener("click", (event) => {
     formDateInput.value = ""
     addTaskSecondDiv.classList.remove("overlay");
@@ -367,12 +378,14 @@ btnExitData.addEventListener("click", (event) => {
     event.preventDefault();
 })
 
+//evento de clique no botao de enviar data
 btnSendData.addEventListener("click", (event) => {
     addTaskSecondDiv.classList.remove("overlay");
     addTaskSecondDiv.classList.add("hide");
     event.preventDefault();
 })
 
+//evento de clique no dia do calendario para adicionar data ao input
 daysTag.addEventListener("click", (event) => {
     if (event.target.tagName === "LI" && !event.target.classList.contains("inactive")) {
         const selectedDay = event.target.innerText;
@@ -381,6 +394,7 @@ daysTag.addEventListener("click", (event) => {
     }
 });
 
+//evento de clique no botao de enviar task
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -398,19 +412,22 @@ form.addEventListener("submit", (e) => {
     }
 });
 
+//evento de clique no icone de recolher tasks de hoje
 unfoldTodayIcon.addEventListener("click", () => {
     toggleVisibility("check-list", unfoldTodayIcon);
 });
 
+//evento de clique no icone de recolher tasks futuras
 unfoldFutureIcon.addEventListener("click", () => {
     toggleVisibility("check-list-future", unfoldFutureIcon);
 });
 
+//evento de clique no icone de recolher tasks concluidas
 unfoldConcludedIcon.addEventListener("click", () => {
     toggleVisibility("check-list-concluded", unfoldConcludedIcon);
 });
 
-
+//evento de clique no checkbox
 document.addEventListener("click", (event) => {
     if (event.target.type === "checkbox" && event.target.closest("label")) {
         const todo = event.target.closest("label");
@@ -422,6 +439,7 @@ document.addEventListener("click", (event) => {
     }
 });
 
+//evento de clique na tarefa para abertura da div de ediçao
 document.querySelectorAll(".check-itens").forEach(task => {
     task.addEventListener("click", (event) => {
         if (!event.target.classList.contains("checkmark") && event.target.id !== "delete-task") {
@@ -430,6 +448,7 @@ document.querySelectorAll(".check-itens").forEach(task => {
     });
 });
 
+//evento de clique fora da div de ediçao para fechar a mesma
 document.addEventListener("click", (event) => {
     if (!editTaskDiv.contains(event.target) && !event.target.closest(".check-itens")) {
         editDiv.classList.remove("overlay");
