@@ -183,21 +183,21 @@ const openEditTask = (task) => {
     editDiv.classList.remove("hide");
     editDiv.classList.add("overlay");
 
-    editTaskTitle.addEventListener("blur", () => {
+    const saveEdits = () => {
         const newTitle = editTaskTitle.value;
+        const newDate = editTaskDate.innerText;
         if (newTitle !== taskTitle) {
             task.querySelector("p").innerText = newTitle;
             updateTodoTitleLocalStorage(taskTitle, newTitle);
         }
-    });
-
-    editTaskDate.addEventListener("blur", () => {
-        const newDate = editTaskDate.innerText;
         if (newDate !== taskDate) {
             task.querySelector(".iten-data p").innerText = newDate;
             updateTodoDateLocalStorage(taskTitle, newDate);
         }
-    });
+    };
+
+    editTaskTitle.addEventListener("blur", saveEdits);
+    editTaskDate.addEventListener("blur", saveEdits);
 };
 
 //funcao que move tarefas para div cloncluded
