@@ -346,10 +346,14 @@ button {
         top: 7rem;
     }
 
-    #edit-task h4 {
+    #edit-task input {
         font-weight: bold;
         font-size: 2rem;
+        width: 100%;
+        border: none;
+        outline: none;
     }
+
 
     .line {
         height: 1px;
@@ -371,6 +375,10 @@ button {
         align-items: center;
         justify-content: center;
         margin-bottom: 1.5rem;
+    }
+
+    .categoria button{
+        color: white;
     }
 
     #edit-data {

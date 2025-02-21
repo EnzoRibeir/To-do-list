@@ -162,17 +162,41 @@ const toggleVisibility = (elementId, icon) => {
 
 // Função para abrir a div de edição
 const openEditTask = (task) => {
+    const taskId = task.getAttribute("data-id");
     const taskTitle = task.querySelector("p").innerText;
     const taskDate = task.querySelector(".iten-data p").innerText;
+    const isDone = task.closest("#check-list-concluded") !== null;
+    if (isDone) {
+        return;
+    }
 
-    editTaskTitle.innerText = taskTitle;
+    editTaskTitle.value = taskTitle;
     editTaskDate.innerText = taskDate;
 
     editDiv.classList.remove("hide");
     editDiv.classList.add("overlay");
 
+    editTaskTitle.addEventListener("blur", () => {
+        const newTitle = editTaskTitle.value;
+        task.querySelector("p").innerText = newTitle;
+        updateTodoTitleLocalStorage(taskId, newTitle);
+        editDiv.classList.remove("overlay");
+        editDiv.classList.add("hide");
+    });
 };
 
+// Função para atualizar o título da tarefa no localStorage
+const updateTodoTitleLocalStorage = (taskId, newTitle) => {
+    const todos = getTodosLocalStorage();
+    todos.forEach((todo) => {
+        if (todo.id === taskId) {
+            todo.text = newTitle;
+        }
+    });
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+//funcao que move tarefas para div cloncluded
 function toggleCheckbox(checkmark) {
     const todo = checkmark.closest("label");
     const isChecked = checkmark.classList.toggle('checked');
@@ -187,6 +211,9 @@ function toggleCheckbox(checkmark) {
 const saveTodo = (text, date, done = false, save = true) => {
     const todo = document.createElement("label");
     todo.classList.add("check-itens");
+
+    const todoId = `todo-${Date.now()}`; // Adiciona um ID único
+    todo.setAttribute("data-id", todoId);
     
     const todoTextDiv = document.createElement("div");
     todoTextDiv.classList.add("iten-text");
@@ -238,6 +265,12 @@ const saveTodo = (text, date, done = false, save = true) => {
     if (save) {
         saveTodoLocalStorage({ text, date, done });
     }
+
+    todo.addEventListener("click", (event) => {
+        if (!event.target.classList.contains("checkmark") && event.target.id !== "delete-task") {
+            openEditTask(todo);
+        }
+    });
     
     checkEmptyLists();
 }
@@ -261,16 +294,16 @@ const saveTodoLocalStorage = (todo) => {
     localStorage.setItem("todos", JSON.stringify(todos));
 };
 
-const removeTodoLocalStorage = (todoText) => {
+const removeTodoLocalStorage = (todoId) => {
     const todos = getTodosLocalStorage();
-    const filteredTodos = todos.filter((todo) => todo.text !== todoText);
+    const filteredTodos = todos.filter((todo) => todo.id !== todoId);
     localStorage.setItem("todos", JSON.stringify(filteredTodos));
 };
 
-const updateTodoStatusLocalStorage = (todoText, done) => {
+const updateTodoStatusLocalStorage = (todoId, done) => {
     const todos = getTodosLocalStorage();
     todos.forEach((todo) => {
-        if (todo.text === todoText) {
+        if (todo.id === todoId) {
             todo.done = done;
         }
     });
