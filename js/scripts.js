@@ -1,23 +1,23 @@
 
 //codigo do calendario
 const daysTag = document.querySelector(".days"),
-currentDate = document.querySelector(".current-date"),
-prevNextIcon = document.querySelectorAll(".icons span");
+    currentDate = document.querySelector(".current-date"),
+    prevNextIcon = document.querySelectorAll(".icons span");
 
 // obtendo nova data, ano atual e mês atual
 let date = new Date()
 currYear = date.getFullYear(),
-currMonth = date.getMonth();
+    currMonth = date.getMonth();
 
 // armazenando o nome completo de todos os meses em um array
 const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
-              "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+    "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
 const renderCalendar = () => {
     let firstDayofMonth = new Date(currYear, currMonth, 1).getDay(), // obtendo o primeiro dia do mês
-    lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // obtendo a última data do mês
-    lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // obtendo o último dia do mês
-    lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); // obtendo a última data do mês anterior
+        lastDateofMonth = new Date(currYear, currMonth + 1, 0).getDate(), // obtendo a última data do mês
+        lastDayofMonth = new Date(currYear, currMonth, lastDateofMonth).getDay(), // obtendo o último dia do mês
+        lastDateofLastMonth = new Date(currYear, currMonth, 0).getDate(); // obtendo a última data do mês anterior
     let liTag = "";
 
     for (let i = firstDayofMonth; i > 0; i--) { // criando li dos últimos dias do mês anterior
@@ -26,8 +26,8 @@ const renderCalendar = () => {
 
     for (let i = 1; i <= lastDateofMonth; i++) { // criando li de todos os dias do mês atual
         // adicionando classe ativa ao li se o dia, mês e ano atuais corresponderem
-        let isToday = i === date.getDate() && currMonth === new Date().getMonth() 
-                     && currYear === new Date().getFullYear() ? "active" : "";
+        let isToday = i === date.getDate() && currMonth === new Date().getMonth()
+            && currYear === new Date().getFullYear() ? "active" : "";
         liTag += `<li class="${isToday}">${i}</li>`;
     }
 
@@ -44,7 +44,7 @@ prevNextIcon.forEach(icon => { // obtendo ícones de anterior e próximo
         // se o ícone clicado for o ícone anterior, decremente o mês atual em 1, caso contrário, incremente em 1
         currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
 
-        if(currMonth < 0 || currMonth > 11) { // se o mês atual for menor que 0 ou maior que 11
+        if (currMonth < 0 || currMonth > 11) { // se o mês atual for menor que 0 ou maior que 11
             // criando uma nova data do ano e mês atuais e passando como valor de data
             date = new Date(currYear, currMonth, new Date().getDate());
             currYear = date.getFullYear(); // atualizando o ano atual com o ano da nova data
@@ -86,6 +86,12 @@ const select = document.querySelector('.dropdown-select');
 const selectOptions = document.querySelectorAll('.selector-categoria-options div');
 const formCategoryInput = document.querySelector("#form-category");
 const navItems = document.querySelectorAll("#nav-list .nav-itens");
+const menuDiv = document.querySelector("#menu");
+const menuMainDiv = document.querySelector("#menu-main");
+const menuOverlayDiv = document.querySelector("#menu-overlay");
+const unfoldCategoriaIcon = document.getElementById("unfold-categoria");
+const footerDiv = document.querySelector("#footer");
+const menuIcon = document.querySelector("#menu-icon");
 let taskConcluded = document.querySelector("#task-concluded");
 let taskFuture = document.querySelector("#task-future");
 let taskToday = document.querySelector("#task-today");
@@ -135,14 +141,14 @@ const checkEmptyLists = () => {
         taskToday.id = "task-today";
     }
 
-    if (checkListToday.querySelectorAll("label").length === 0 && 
+    if (checkListToday.querySelectorAll("label").length === 0 &&
         checkListConcluded.querySelectorAll("label").length === 0 &&
         checkListFuture.querySelectorAll("label").length === 0) {
-            noTask.classList.remove("hide")
+        noTask.classList.remove("hide")
     } else {
         noTask.classList.add("hide")
     }
-    
+
 }
 
 checkEmptyLists();
@@ -284,7 +290,7 @@ const saveTodo = (text, date, category, done = false, save = true) => {
     }
 
     if (save) {
-        saveTodoLocalStorage({ text, date, category, done});
+        saveTodoLocalStorage({ text, date, category, done });
     }
 
     todo.addEventListener("click", (event) => {
@@ -292,7 +298,7 @@ const saveTodo = (text, date, category, done = false, save = true) => {
             openEditTask(todo);
         }
     });
-    
+
     checkEmptyLists();
 }
 
@@ -377,8 +383,8 @@ btnAddTask.addEventListener("click", (event) => {
 
 //evento de clique fora da div de adicionar task
 document.addEventListener("click", (event) => {
-    if (!addTaskFirstDiv.contains(event.target) 
-        && !btnAddTask.contains(event.target) 
+    if (!addTaskFirstDiv.contains(event.target)
+        && !btnAddTask.contains(event.target)
         && !addTaskSecondDiv.contains(event.target)
     ) {
         addTaskDiv.classList.add("hide");
@@ -419,23 +425,23 @@ daysTag.addEventListener("click", (event) => {
 
 //evento de clique no botao de enviar task
 form.addEventListener("submit", (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const inputValue = formInput.value;
-  let dateValue = formDateInput.value;
-  const categoryValue = formCategoryInput.value || "Sem categoria";
+    const inputValue = formInput.value;
+    let dateValue = formDateInput.value;
+    const categoryValue = formCategoryInput.value || "Sem categoria";
 
-  if (!dateValue) {
-    dateValue = formatDate(new Date());
-  }
+    if (!dateValue) {
+        dateValue = formatDate(new Date());
+    }
 
-  if (inputValue) {
-    saveTodo(inputValue, dateValue, categoryValue);
-    formInput.value = "";
-    formDateInput.value = "";
-    formCategoryInput.value = "";
-    select.innerText = "Sem categoria";
-  }
+    if (inputValue) {
+        saveTodo(inputValue, dateValue, categoryValue);
+        formInput.value = "";
+        formDateInput.value = "";
+        formCategoryInput.value = "";
+        select.innerText = "Sem categoria";
+    }
 });
 
 //evento de clique no icone de recolher tasks de hoje
@@ -485,11 +491,11 @@ document.addEventListener("click", (event) => {
 //evento de clique no botao de categoria em adicionar task
 select.addEventListener('click', () => {
     selectorCategoria.classList.toggle('active');
-  });
-  
-  document.addEventListener('click', (e) => {
+});
+
+document.addEventListener('click', (e) => {
     if (!selectorCategoria.contains(e.target)) {
-      selectorCategoria.classList.remove('active');
+        selectorCategoria.classList.remove('active');
     }
 });
 
@@ -500,11 +506,11 @@ document.addEventListener('click', (e) => {
 });
 
 selectOptions.forEach(option => {
-  option.addEventListener('click', () => {
-    select.innerText = option.innerText;
-    formCategoryInput.value = option.innerText;
-    selectorCategoria.classList.remove('active');
-  });
+    option.addEventListener('click', () => {
+        select.innerText = option.innerText;
+        formCategoryInput.value = option.innerText;
+        selectorCategoria.classList.remove('active');
+    });
 });
 
 navItems.forEach(item => {
@@ -512,4 +518,24 @@ navItems.forEach(item => {
         const category = item.innerText;
         filterTasksByCategory(category);
     });
+});
+
+//evento de clique no icone de recolher do menu em categoria
+unfoldCategoriaIcon.addEventListener("click", () => {
+    toggleVisibility("menu-main", unfoldCategoriaIcon);
+});
+
+document.addEventListener("click", (event) => {
+    if (!menuDiv.contains(event.target)) {
+        menuOverlayDiv.classList.remove("overlay");
+        menuOverlayDiv.classList.add("hide");
+    }
+});
+
+document.addEventListener("click", (event) => {
+    if (menuIcon.contains(event.target)) {
+        menuOverlayDiv.classList.remove("hide");
+        menuOverlayDiv.classList.add("overlay");
+        event.preventDefault();
+    }
 });

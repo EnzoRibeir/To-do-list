@@ -148,6 +148,7 @@ button {
     color: #ff66c4;
   }
 
+  .iten-text 
   #delete-task {
     position: relative;
     top: 6px;
@@ -572,5 +573,74 @@ button {
     margin: 0 auto;
     justify-content: space-between;
     margin-bottom: 1rem;
+  }
+
+  /* menu */
+  #menu-main {
+    width: 100%;
+    height: 100%;
+  }
+  
+  #menu {
+    height: 100%;
+    background-color: #ffd1eef7;
+    display: flex;
+    flex-direction: column;
+    color: rgb(41, 41, 41);
+    height: 100%;
+    width: 70%;
+    position: fixed;
+    left: 0;
+    padding: 2rem 1rem;
+  }
+
+  #menu-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #menu-title span {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+  }
+
+  #menu-title h4 {
+    font-size: 2rem;
+  }
+
+  #menu-list {
+    flex-direction: column;
+    padding: 0.5rem 0.3rem 0.5rem 2rem;
+    font-size: 0.9rem;
+  }
+
+  #menu-button {
+    display: flex;
+    color: #6a6a6a93;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 1rem;
+  }
+
+  .menu-itens p {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .menu-itens {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.3rem 0;
+    justify-content: space-between;
+    color: #6a6a6a;
+  }
+
+  .menu-itens #delete-task{
+    color: #6a6a6a4a;
   }
 }
