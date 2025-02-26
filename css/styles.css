@@ -63,7 +63,7 @@ button {
     width: 100%;
     margin-bottom: 2rem;
     overflow-x: auto;
-    justify-content: space-evenly;
+    justify-content: space-between;
     scroll-behavior: smooth;
     -ms-overflow-style: none;  /* Internet Explorer 10+ */
     scrollbar-width: none;  /* Firefox */
