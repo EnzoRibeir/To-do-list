@@ -20,9 +20,9 @@
     <div id="container">
         <div id="nav">
             <ul id="nav-list">
-                <li class="nav-itens">Todos</li>
+                <!-- <li class="nav-itens">Todos</li>
                 <li class="nav-itens">Trabalho</li>
-                <li class="nav-itens">Faculdade</li>
+                <li class="nav-itens">Faculdade</li> -->
             </ul>
         </div>
 
@@ -123,9 +123,9 @@
                                     <button type="button" class="dropdown-select form-button-categoria">Sem categoria</button>
                                     <input type="hidden" name="form-category" id="form-category" />
                                     <div class="selector-categoria-options">
-                                        <div>Sem categoria</div>
+                                        <!-- <div>Sem categoria</div>
                                         <div>Trabalho</div>
-                                        <div>Faculdade</div>
+                                        <div>Faculdade</div> -->
                                       </div>
                                 </div>
                                 <button type="submit" name="btn-calendar"><img src="img/icon_calendar.png"
@@ -174,59 +174,81 @@
             </form>
         </div>
 
-        <div id="menu-overlay" class="overlay">
+            <div id="menu-overlay" class="hide">
             <div id="menu">
-                <div id="menu-title">
-                    <span class="material-symbols-outlined">
-                        view_cozy
-                        <h4>Categorias</h4>
-                    </span>
-                    <span id="unfold-categoria" class="material-symbols-outlined">
-                        keyboard_arrow_down
-                    </span>
-                </div> 
-                <div id="menu-main"> 
-                    <ul id="menu-list">
-                        <li class="menu-itens">
-                            <p>
-                                <span class="material-symbols-outlined">
-                                    folder
+                <div id="menu-content">
+                    <div id="menu-title">
+                        <span class="material-symbols-outlined">
+                            view_cozy
+                            <h4>Categorias</h4>
+                        </span>
+                        <span id="unfold-categoria" class="material-symbols-outlined">
+                            keyboard_arrow_down
+                        </span>
+                    </div> 
+                    <div id="menu-main"> 
+                        <ul id="menu-list">
+                            <li class="menu-itens">
+                                <div class="name-category">
+                                    <span class="material-symbols-outlined">
+                                        folder
+                                    </span>
+                                    <p>
+                                        Todos
+                                    </p>
+                                </div> 
+                            </li>
+                            <li class="menu-itens">
+                                <div class="name-category">
+                                    <span class="material-symbols-outlined">
+                                        folder
+                                    </span>
+                                    <p>
+                                        Trabalho
+                                    </p>
+                                </div> 
+                                <span id="delete-category" class="material-symbols-outlined">
+                                    delete
                                 </span>
-                                Todos
-                            </p>
-                        </li>
-                        <li class="menu-itens">
-                            <p>
-                                <span class="material-symbols-outlined">
-                                    folder
+                            </li>
+                            <li class="menu-itens">
+                                <div class="name-category">
+                                    <span class="material-symbols-outlined">
+                                        folder
+                                    </span>
+                                    <p>
+                                        faculdade
+                                    </p>
+                                </div> 
+                                <span id="delete-category" class="material-symbols-outlined">
+                                    delete
                                 </span>
-                                Trabalho
-                            </p>
-                            <span id="delete-task" class="material-symbols-outlined">
-                                delete
-                            </span>
-                        </li>
-                        <li class="menu-itens">
-                            <p>
-                                <span class="material-symbols-outlined">
-                                    folder
-                                </span>
-                                Faculdade
-                            </p>
-                            <span id="delete-task" class="material-symbols-outlined">
-                                delete
-                            </span>
-                        </li>
-                        <li class="menu-itens">
-                            <button id="menu-button">
-                                <span class="material-symbols-outlined">
-                                    create_new_folder
-                                </span>
-                                Criar nova
-                            </button>
-                        </li>
-                    </ul>
+                            </li>
+                            <li class="menu-itens">
+                                <button id="create-category-button">
+                                    <span class="material-symbols-outlined">
+                                        create_new_folder
+                                    </span>
+                                    Criar nova
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+            <div id="create-new-category" class="hide">
+                <form>
+                    <label for="">
+                        <span class="material-symbols-outlined" id="close-create-category">
+                            close
+                        </span>
+                        <p>Criar nova categoria</p>
+                        <span class="material-symbols-outlined" id="done-new-category">
+                            check
+                        </span>
+                    </label>
+                    <input type="text" name="new-category" id="new-category-name" placeholder="Nome da categoria" />
+                </form>
             </div>
         </div>
 

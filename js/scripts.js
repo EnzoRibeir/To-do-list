@@ -92,6 +92,11 @@ const menuOverlayDiv = document.querySelector("#menu-overlay");
 const unfoldCategoriaIcon = document.getElementById("unfold-categoria");
 const footerDiv = document.querySelector("#footer");
 const menuIcon = document.querySelector("#menu-icon");
+const btnCreateCategory = document.querySelector("#create-category-button");
+const createCategoryDiv = document.querySelector("#create-new-category");
+const createCategoryFormDiv = document.querySelector("#create-new-category form");
+const doneNewCategory = document.querySelector("#done-new-category");
+const newCategoryName = document.querySelector("#new-category-name");
 let taskConcluded = document.querySelector("#task-concluded");
 let taskFuture = document.querySelector("#task-future");
 let taskToday = document.querySelector("#task-today");
@@ -232,6 +237,110 @@ const filterTasksByCategory = (category) => {
     });
 };
 
+// funçao de atualizar lista de categorias
+const updateCategoryList = () => {
+    const categories = getCategoriesLocalStorage();
+    const navList = document.querySelector("#nav-list");
+    const menuList = document.querySelector("#menu-list");
+    const selectorCategoriaOptions = document.querySelector(".selector-categoria-options");
+
+    navList.innerHTML = "";
+    menuList.innerHTML = "";
+    selectorCategoriaOptions.innerHTML = "";
+
+    categories.forEach(category => {
+        // Atualizar a navegação
+        const navItem = document.createElement("li");
+        navItem.classList.add("nav-itens");
+        navItem.innerText = category;
+        navList.appendChild(navItem);
+
+        // Atualizar o menu
+        const menuItem = document.createElement("li");
+        menuItem.classList.add("menu-itens");
+        menuItem.innerHTML = `
+            <div class="name-category">
+                <span class="material-symbols-outlined">folder</span>
+                <p>${category}</p>
+            </div>
+            ${category !== "Todos" ? '<span class="material-symbols-outlined delete-category">delete</span>' : ''}
+        `;
+        menuList.appendChild(menuItem);
+
+        // Atualizar o seletor de categorias
+        const optionItem = document.createElement("div");
+        optionItem.innerText = category;
+        selectorCategoriaOptions.appendChild(optionItem);
+    });
+
+    // Re-add the create category button
+    const createCategoryButton = document.createElement("li");
+    createCategoryButton.classList.add("menu-itens");
+    createCategoryButton.innerHTML = `
+        <button id="create-category-button">
+            <span class="material-symbols-outlined">create_new_folder</span>
+            Criar nova
+        </button>
+    `;
+    menuList.appendChild(createCategoryButton);
+
+    // Re-add event listeners
+    document.querySelectorAll(".nav-itens").forEach(item => {
+        item.addEventListener("click", () => {
+            const category = item.innerText;
+            filterTasksByCategory(category);
+        });
+    });
+
+    document.querySelector("#create-category-button").addEventListener("click", (event) => {
+        createCategoryDiv.classList.remove("hide");
+        createCategoryDiv.classList.add("overlay");
+        newCategoryName.focus();
+        event.preventDefault();
+    });
+
+    document.querySelectorAll(".selector-categoria-options div").forEach(option => {
+        option.addEventListener('click', () => {
+            select.innerText = option.innerText;
+            formCategoryInput.value = option.innerText;
+            selectorCategoria.classList.remove('active');
+        });
+    });
+
+    document.querySelectorAll(".delete-category").forEach(button => {
+        button.addEventListener("click", (event) => {
+            const category = button.parentElement.querySelector("p").innerText.trim();
+            console.log(category)
+            removeCategory(category);
+            event.stopPropagation();
+        });
+    });
+};
+
+
+//funçao de remover categoria
+const removeCategory = (categoryName) => {
+    let categories = getCategoriesLocalStorage();
+    categories = categories.filter(category => category !== categoryName);
+    localStorage.setItem("categories", JSON.stringify(categories));
+    updateCategoryList();
+};
+
+//funçao de criar nova categoria
+const addCategory = (categoryName) => {
+    const categories = getCategoriesLocalStorage();
+    if (!categories.includes(categoryName)) {
+        categories.push(categoryName);
+        localStorage.setItem("categories", JSON.stringify(categories));
+        updateCategoryList();
+    }
+};
+
+
+// funçao pra dar upload nas categorias quando a pagina carrega
+document.addEventListener("DOMContentLoaded", () => {
+    updateCategoryList();
+});
 
 //funçao de adicionar task
 const saveTodo = (text, date, category, done = false, save = true) => {
@@ -304,6 +413,11 @@ const saveTodo = (text, date, category, done = false, save = true) => {
 
 
 // Funções de Local Storage
+
+
+const getCategoriesLocalStorage = () => {
+    return JSON.parse(localStorage.getItem("categories")) || ["Todos"];
+};
 
 //funçao de atualizar data da task
 const updateTodoDateLocalStorage = (taskTitle, newDate) => {
@@ -526,7 +640,7 @@ unfoldCategoriaIcon.addEventListener("click", () => {
 });
 
 document.addEventListener("click", (event) => {
-    if (!menuDiv.contains(event.target)) {
+    if (!menuDiv.contains(event.target) && !createCategoryDiv.contains(event.target)) {
         menuOverlayDiv.classList.remove("overlay");
         menuOverlayDiv.classList.add("hide");
     }
@@ -538,4 +652,24 @@ document.addEventListener("click", (event) => {
         menuOverlayDiv.classList.add("overlay");
         event.preventDefault();
     }
+});
+
+//evento de clique no botao/fora da div de fechar a div de criar categoria
+createCategoryDiv.addEventListener("click", (event) => {
+    if (!createCategoryFormDiv.contains(event.target) || event.target.id === "close-create-category") {
+        createCategoryDiv.classList.remove("overlay");
+        createCategoryDiv.classList.add("hide");
+    }
+});
+
+//evento de clique no botao done na div de criar categoria
+doneNewCategory.addEventListener("click", (event) => {
+    const categoryName = newCategoryName.value.trim();
+    if (categoryName) {
+        addCategory(categoryName);
+        newCategoryName.value = "";
+        createCategoryDiv.classList.remove("overlay");
+        createCategoryDiv.classList.add("hide");
+    }
+    event.preventDefault();
 });

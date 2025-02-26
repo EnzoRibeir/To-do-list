@@ -47,22 +47,36 @@ button {
 
   /* Navigation */
   #nav {
-    margin: 0.4rem 1rem;
+    margin: 0.4rem 0rem;
+    overflow: hidden;
+    position: relative;
   }
 
   #nav-list {
     display: flex;
     width: 100%;
     margin-bottom: 2rem;
-    justify-content: space-between;
+    overflow-x: auto;
+    justify-content: space-evenly;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
   }
+
+  #nav-list::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
+  }
+      
 
   .nav-itens {
     background-color: #ff66c4;
     color: white;
     border-radius: 1rem;
+    margin-left: 0.3rem;
     padding: 0.2rem 1rem;
     font-size: .9rem;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
   }
 
   /* No Task Message */
@@ -583,7 +597,7 @@ button {
   
   #menu {
     height: 100%;
-    background-color: #ffd1eef7;
+    background-color: #ffebf8f7;
     display: flex;
     flex-direction: column;
     color: rgb(41, 41, 41);
@@ -591,7 +605,14 @@ button {
     width: 70%;
     position: fixed;
     left: 0;
-    padding: 2rem 1rem;
+    padding: 2.5rem 1rem;
+    border-radius: 1rem;
+  }
+
+  #menu-content {
+    background-color: #ffd1eef7;
+    border-radius: 1rem;
+    padding: 1rem;
   }
 
   #menu-title {
@@ -601,6 +622,7 @@ button {
     align-items: center;
   }
 
+
   #menu-title span {
     display: flex;
     gap: 0.3rem;
@@ -608,24 +630,24 @@ button {
   }
 
   #menu-title h4 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   #menu-list {
     flex-direction: column;
-    padding: 0.5rem 0.3rem 0.5rem 2rem;
-    font-size: 0.9rem;
+    padding: 0.6rem 0.3rem 0.5rem 2rem;
+    font-size: 0.8rem;
   }
 
-  #menu-button {
+  #create-category-button {
     display: flex;
     color: #6a6a6a93;
     align-items: center;
     gap: 0.2rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 
-  .menu-itens p {
+  .name-category {
     display: flex;
     align-items: center;
     gap: 0.2rem;
@@ -637,10 +659,48 @@ button {
     gap: 0.2rem;
     padding: 0.3rem 0;
     justify-content: space-between;
-    color: #6a6a6a;
+    color: #434343;
   }
 
-  .menu-itens #delete-task{
+  .delete-category{
     color: #6a6a6a4a;
   }
+
+   /* Create Category */
+  #create-new-category {
+    width: 100%;
+    height: 100%;
+  }
+
+  #create-new-category form {
+    width: 100%;
+    align-items: center;
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffebf8;
+    z-index: 1000;
+    position: fixed;
+    bottom: 0;
+  }
+
+  #create-new-category label {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    width: 100%;
+  }
+
+  #create-new-category input {
+    background-color: white;
+    height: 3.5rem;
+    border-radius: 0.7rem;
+    border: 1px solid #c6c6c6;
+    text-align: left;
+    padding: 0 1rem;
+    width: 90%;
+    outline: none;
+  }
+
 }
