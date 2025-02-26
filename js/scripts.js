@@ -91,7 +91,7 @@ const menuMainDiv = document.querySelector("#menu-main");
 const menuOverlayDiv = document.querySelector("#menu-overlay");
 const unfoldCategoriaIcon = document.getElementById("unfold-categoria");
 const footerDiv = document.querySelector("#footer");
-const menuIcon = document.querySelector("#menu-icon");
+const categoryIcon = document.querySelector("#category-icon");
 const btnCreateCategory = document.querySelector("#create-category-button");
 const createCategoryDiv = document.querySelector("#create-new-category");
 const createCategoryFormDiv = document.querySelector("#create-new-category form");
@@ -647,7 +647,7 @@ document.addEventListener("click", (event) => {
 });
 
 document.addEventListener("click", (event) => {
-    if (menuIcon.contains(event.target)) {
+    if (categoryIcon.contains(event.target)) {
         menuOverlayDiv.classList.remove("hide");
         menuOverlayDiv.classList.add("overlay");
         event.preventDefault();

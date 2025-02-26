@@ -50,6 +50,12 @@ button {
     margin: 0.4rem 0rem;
     overflow: hidden;
     position: relative;
+    display: flex;
+  }
+
+  #category-icon {
+    margin: 0 0.4rem;
+    color: #ff66c45e;
   }
 
   #nav-list {
