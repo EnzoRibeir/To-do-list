@@ -47,14 +47,14 @@ button {
 
   /* Navigation */
   #nav {
-    margin: 0.4rem 0rem;
+    margin: 0.6rem 0rem;
     overflow: hidden;
     position: relative;
     display: flex;
   }
 
   #category-icon {
-    margin: 0 0.4rem;
+    margin: 0 0.6rem;
     color: #ff66c45e;
   }
 
@@ -206,17 +206,16 @@ button {
   }
 
   /* Add Task Button */
-  #btn-add-task {
-    width: 90px;
-    height: 90px;
-    position: fixed;
-    bottom: 5rem;
-    right: 2rem;
+  #btn-add-task .material-symbols-outlined {
+    font-size: 5rem;
+    color: #ff66c4;
+    
   }
 
-  #btn-add-task img {
-    width: 100%;
-    height: 100%;
+  #btn-add-task {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
   }
 
   /* Footer */
